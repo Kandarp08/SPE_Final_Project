@@ -1,6 +1,6 @@
 stages:
   ingest:
-    cmd: python3 src/ingest_data.py
+    cmd: ${DVC_PYTHON_CMD} src/ingest_data.py
     deps:
       - src/ingest_data.py
       - data
@@ -9,7 +9,7 @@ stages:
       - processed_data/val.csv
 
   train:
-    cmd: python3 src/train.py
+    cmd: ${DVC_PYTHON_CMD} src/train.py
     deps:
       - src/train.py
       - processed_data/train.csv
@@ -17,7 +17,7 @@ stages:
       - models/model.onnx
 
   evaluate:
-    cmd: python3 src/evaluate.py
+    cmd: ${DVC_PYTHON_CMD} src/evaluate.py
     deps:
       - src/evaluate.py
       - models/model.onnx
