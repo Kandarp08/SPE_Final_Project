@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 import os
 
-DATASET_PATH = "./data/diabetes_prediction_dataset_1.csv"
+DATASET_PATH = "./data/diabetes_prediction_dataset_2.csv"
 PROCESSED_DATA_DIR = "./processed_data"
 TEST_RATIO = 0.2
 RANDOM_SEED = 100
