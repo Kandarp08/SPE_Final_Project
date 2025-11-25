@@ -10,7 +10,6 @@ pipeline
         PIP = "${VENV}/bin/pip"
         DVC = "${VENV}/bin/dvc"
         MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
-        DVC_PYTHON_CMD = "${VENV}/bin/python"
     }
 
     stages 
@@ -39,7 +38,10 @@ pipeline
         {
             steps 
             {
-                sh "${DVC} pull"
+                sh """
+                . ${VENV}/bin/activate
+                dvc pull
+                """
             }
         }
 
@@ -47,7 +49,10 @@ pipeline
         {
             steps 
             {
-                sh "${DVC} repro"
+                sh """
+                . ${VENV}/bin/activate
+                dvc repro
+                """
             }
         }
 
@@ -55,7 +60,10 @@ pipeline
         {
             steps 
             {
-                sh "${DVC} push"
+                sh """
+                . ${VENV}/bin/activate
+                dvc push
+                """
             }
         }
     }
