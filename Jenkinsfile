@@ -8,8 +8,7 @@ pipeline
         VENV = "${WORKSPACE}/venv"
         PYTHON = "${VENV}/bin/python"
         PIP = "${VENV}/bin/pip"
-        DVC = "${VENV}/bin/dvc"
-        MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
+        MLFLOW_TRACKING_URI = "sqlite://${WORKSPACE}/mlflow.db"
     }
 
     stages 
