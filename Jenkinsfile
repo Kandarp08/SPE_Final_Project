@@ -1,10 +1,15 @@
-pipeline {
+pipeline 
+{
     agent any
 
     environment 
     {
         PROJECT_DIR = "${WORKSPACE}"
         VENV = "${WORKSPACE}/venv"
+        PYTHON = "${VENV}/bin/python"
+        PIP = "${VENV}/bin/pip"
+        DVC = "${VENV}/bin/dvc"
+        MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
     }
 
     stages 
@@ -23,44 +28,35 @@ pipeline {
             {
                 sh """
                     python3 -m venv ${VENV}
-                    . ${VENV}/bin/activate
-                    pip install --upgrade pip
-                    pip install -r requirements.txt
+                    ${PIP} install --upgrade pip
+                    ${PIP} install -r requirements.txt
                 """
             }
         }
 
-        // stage("Preprocess Data") 
-        // {
-        //     steps 
-        //     {
-        //         sh """
-        //             source ${VENV}/bin/activate
-        //             python3 src/preprocess.py
-        //         """
-        //     }
-        // }
+        stage("Pull Data + Models (DVC)") 
+        {
+            steps 
+            {
+                sh "${DVC} pull"
+            }
+        }
 
-        // stage("Train Model") 
-        // {
-        //     steps 
-        //     {
-        //         sh """
-        //             source ${VENV}/bin/activate
-        //             python3 src/train.py
-        //         """
-        //     }
-        // }
+        stage("Run Pipeline (DVC)") 
+        {
+            steps 
+            {
+                sh "${DVC} repro"
+            }
+        }
 
-        // stage("Evaluate Model") 
-        // {
-        //     steps {
-        //         sh """
-        //             source ${VENV}/bin/activate
-        //             python3 src/test.py
-        //         """
-        //     }
-        // }
+        stage("Push Artifacts (DVC)") 
+        {
+            steps 
+            {
+                sh "${DVC} push"
+            }
+        }
     }
 
     post 
@@ -72,7 +68,7 @@ pipeline {
 
         failure 
         {
-            echo "Pipeline Failed."
+            echo "Pipeline failed."
         }
     }
 }

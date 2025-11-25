@@ -1,0 +1,26 @@
+stages:
+  ingest:
+    cmd: python3 src/ingest_data.py
+    deps:
+      - src/ingest_data.py
+      - data
+    outs:
+      - processed_data/train.csv
+      - processed_data/val.csv
+
+  train:
+    cmd: python3 src/train.py
+    deps:
+      - src/train.py
+      - processed_data/train.csv
+    outs:
+      - models/model.onnx
+
+  evaluate:
+    cmd: python3 src/evaluate.py
+    deps:
+      - src/evaluate.py
+      - models/model.onnx
+      - processed_data/val.csv
+    outs:
+      - metrics.json
