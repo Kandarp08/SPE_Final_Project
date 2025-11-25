@@ -1,3 +1,4 @@
 venv/
 mlruns/
 /metrics.json
+processed_data/
