@@ -8,11 +8,10 @@ import pickle
 
 # Paths
 ENCODER_DIR = "./encoders"
-TRAIN_DATA_PATH = "./processed_data/train.csv"
 ONNX_MODEL_PATH = "models/model.onnx"
 
 # Load ONNX model
-session = ort.InferenceSession(ONNX_MODEL_PATH)
+session = ort.InferenceSession(ONNX_MODEL_PATH, providers=["CPUExecutionProvider"])
 input_name = session.get_inputs()[0].name
 output_name = session.get_outputs()[0].name
 
@@ -26,10 +25,7 @@ for col in categorical_cols:
 
 print("Encoders loaded successfully.")
 
-# Determine feature order from training data
-train_df = pd.read_csv(TRAIN_DATA_PATH)
-feature_columns = train_df.drop("diabetes", axis=1).columns.tolist()
-
+feature_columns = ['gender', 'age', 'hypertension', 'heart_disease', 'smoking_history', 'bmi', 'HbA1c_level', 'blood_glucose_level']
 
 # FastAPI setup
 app = FastAPI(
@@ -86,4 +82,4 @@ def predict(payload: InputData):
 
 
 if __name__ == "__main__":
-    uvicorn.run("serve_model:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("serve_model:app", host="0.0.0.0", port=8000)

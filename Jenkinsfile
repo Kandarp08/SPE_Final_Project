@@ -8,7 +8,6 @@ pipeline
         VENV = "${WORKSPACE}/venv"
         PYTHON = "${VENV}/bin/python"
         PIP = "${VENV}/bin/pip"
-        MLFLOW_TRACKING_URI = "sqlite://${WORKSPACE}/mlflow.db"
     }
 
     stages 
@@ -63,6 +62,30 @@ pipeline
                 . ${VENV}/bin/activate
                 dvc push
                 """
+            }
+        }
+
+        stage("Build Docker Image") 
+        {
+            steps 
+            {
+                script
+                {
+                    docker.build("kandarp53/diabetes_prediction:latest")
+                }
+            }
+        }
+
+        stage("Push to DockerHub") 
+        {
+            steps 
+            {
+                script
+                {
+                    docker.withRegistry("https://index.docker.io/v1/", "dockerhub-credentials") {
+                        docker.image("kandarp53/diabetes_prediction:latest").push()
+                    }
+                }
             }
         }
     }
