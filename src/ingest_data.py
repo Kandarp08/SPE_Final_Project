@@ -1,23 +1,35 @@
 import pandas as pd
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder
+from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 import os
+import pickle
 
-DATASET_PATH = "./data/diabetes_prediction_dataset_2.csv"
+DATASET_PATH = "./data/diabetes_prediction_dataset_1.csv"
 PROCESSED_DATA_DIR = "./processed_data"
+ENCODER_DIR = "./encoders"
 TEST_RATIO = 0.2
 RANDOM_SEED = 100
 
 df = pd.read_csv(DATASET_PATH)
 
-#Perform label encoding for now
+# Perform label encoding for now
 categorical_cols = ['hypertension', 'heart_disease', 'gender', 'smoking_history']
+
+# Save encoders for inference time
+encoders = {}
+
+# Create directory for encoders
+os.makedirs(ENCODER_DIR, exist_ok=True)
 
 for col in categorical_cols:
     if col in df.columns:
         le = LabelEncoder()
         df[col] = le.fit_transform(df[col])
+
+        # Save encoder
+        with open(f"{ENCODER_DIR}/{col}_encoder.pkl", "wb") as f:
+            pickle.dump(le, f)
 
 ## Separate features and target
 y = df['diabetes']
