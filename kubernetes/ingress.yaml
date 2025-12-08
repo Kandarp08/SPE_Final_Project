@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: diabetes-prediction-ingress
   namespace: diabetes-prediction
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   ingressClassName: nginx
   rules:
