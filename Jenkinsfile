@@ -88,6 +88,36 @@ pipeline
                 }
             }
         }
+
+        stage("Start Minikube")
+        {
+            steps
+            {
+                script
+                {
+                    sh """
+                    minikube start
+                    minikube status
+                    """
+                }
+            }
+        }
+
+        stage("Deploy using Kubernetes")
+        {
+            steps
+            {
+                script
+                {
+                    sh """
+                    kubectl apply -f ./kubernetes/namespace.yaml
+                    kubectl apply -f ./kubernetes/deployment.yaml
+                    kubectl apply -f ./kubernetes/service.yaml
+                    kubectl apply -f ./kubernetes/ingress.yaml
+                    """
+                }
+            }
+        }
     }
 
     post 

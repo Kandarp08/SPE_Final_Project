@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: diabetes-api
+  namespace: diabetes-prediction
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: diabetes
+  template:
+    metadata:
+      labels:
+        app: diabetes
+    spec:
+      containers:
+      - name: diabetes-api
+        image: kandarp53/diabetes_prediction:latest
+        ports:
+        - containerPort: 8000
+        imagePullPolicy: Always
