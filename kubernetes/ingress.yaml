@@ -4,7 +4,7 @@ metadata:
   name: diabetes-api-ingress
   namespace: diabetes-prediction
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rewrite-target: /predict$2
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
