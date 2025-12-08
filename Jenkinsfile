@@ -96,7 +96,12 @@ pipeline
                 script
                 {
                     sh """
-                    minikube start --preload=false
+                    minikube start \
+                    --driver=docker \
+                    --preload=false \
+                    --force \
+                    --interactive=false
+
                     minikube status
                     """
                 }
