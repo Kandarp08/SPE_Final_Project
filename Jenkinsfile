@@ -102,7 +102,7 @@ pipeline
                     --force \
                     --interactive=false \
                     --cpus=4 \
-                    --memory=7800
+                    --memory=3072
 
                     minikube status
                     """
