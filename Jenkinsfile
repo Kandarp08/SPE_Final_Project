@@ -96,7 +96,7 @@ pipeline
                 script
                 {
                     sh """
-                    minikube start
+                    minikube start --preload=false
                     minikube status
                     """
                 }
