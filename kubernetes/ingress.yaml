@@ -5,14 +5,15 @@ metadata:
   namespace: diabetes-prediction
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   rules:
     - host: diabetes.local
       http:
         paths:
-          - path: /(.*)
-            pathType: Prefix
+          - path: /predict(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: diabetes-api-service
