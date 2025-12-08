@@ -124,6 +124,22 @@ pipeline
                 }
             }
         }
+
+        stage("Apply ELK stack")
+        {
+            steps
+            {
+                script
+                {
+                    sh """
+                    kubectl apply -f ./kubernetes/elk/elasticsearch.yaml
+                    kubectl apply -f ./kubernetes/elk/kibana.yaml
+                    kubectl apply -f ./kubernetes/elk/logstash.yaml
+                    kubectl apply -f ./kubernetes/elk/filebeat.yaml
+                    """
+                }
+            }
+        }
     }
 
     post 
