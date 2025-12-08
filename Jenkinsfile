@@ -100,7 +100,9 @@ pipeline
                     --driver=docker \
                     --preload=false \
                     --force \
-                    --interactive=false
+                    --interactive=false \
+                    --cpus=4 \
+                    --memory=7800
 
                     minikube status
                     """
