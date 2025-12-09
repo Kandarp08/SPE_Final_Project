@@ -19,13 +19,13 @@ data:
         Tag             kube.*
         Refresh_Interval 5
 
-    [FILTER]
-        Name              kubernetes
-        Match             kube.*
-        Merge_Log         On
-        Keep_Log          On
-        K8S-Logging.Parser On
-        K8S-Logging.Exclude Off
+    # [FILTER]
+    #     Name              kubernetes
+    #     Match             kube.*
+    #     Merge_Log         On
+    #     Keep_Log          On
+    #     K8S-Logging.Parser On
+    #     K8S-Logging.Exclude Off
 
     # [OUTPUT]
     #     Name            es
