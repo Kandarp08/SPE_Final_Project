@@ -16,6 +16,11 @@ spec:
       containers:
         - name: fluent-bit
           image: fluent/fluent-bit:1.9
+          command:
+            - /fluent-bit/bin/fluent-bit
+          args:
+            - -c
+            - /fluent-bit/etc/fluent-bit.conf
           volumeMounts:
             - name: varlog
               mountPath: /var/log
