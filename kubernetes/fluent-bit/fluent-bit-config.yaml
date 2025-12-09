@@ -11,11 +11,10 @@ data:
         Log_Level    info
 
     [INPUT]
-        Name              tail
-        Path              /var/log/containers/*.log
-        Parser            docker
-        Tag               kube.*
-        Refresh_Interval  5
+        Name   tail
+        Path   /var/lib/docker/containers/*/*.log
+        Tag    kube.*
+        Parser docker
 
     [FILTER]
         Name                kubernetes
