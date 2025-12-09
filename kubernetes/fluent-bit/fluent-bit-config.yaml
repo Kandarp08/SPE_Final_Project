@@ -10,7 +10,7 @@ data:
         Daemon       Off
         Log_Level    info
 
-    @INCLUDE parsers.conf
+    @INCLUDE /fluent-bit/etc/parsers.conf
 
     [INPUT]
         Name              tail
