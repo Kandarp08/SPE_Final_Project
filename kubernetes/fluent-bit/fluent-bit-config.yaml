@@ -30,7 +30,7 @@ data:
     [OUTPUT]
         Name            es
         Match           kube.*
-        Host            host.docker.internal
+        Host            10.255.255.254
         Port            9200
         Index           k8s-logs
         Type            _doc
