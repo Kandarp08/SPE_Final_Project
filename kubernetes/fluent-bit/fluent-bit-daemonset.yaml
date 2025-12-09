@@ -24,9 +24,10 @@ spec:
           volumeMounts:
             - name: varlog
               mountPath: /var/log
+              readOnly: true
             - name: config
               mountPath: /fluent-bit/etc/fluent-bit.conf
-              subPath: fluent-bit.conf 
+              subPath: fluent-bit.conf
             - name: config
               mountPath: /fluent-bit/etc/parsers.conf
               subPath: parsers.conf
