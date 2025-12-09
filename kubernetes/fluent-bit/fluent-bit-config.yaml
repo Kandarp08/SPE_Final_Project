@@ -36,9 +36,9 @@ data:
     #     Type            _doc
 
     [OUTPUT]
-    Name    stdout
-    Match   kube.*
-    Format  json_lines
+        Name    stdout
+        Match   kube.*
+        Format  json_lines
 
   parsers.conf: |
     [PARSER]
