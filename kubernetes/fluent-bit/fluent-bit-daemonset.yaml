@@ -22,15 +22,12 @@ spec:
             - -c
             - /fluent-bit/etc/fluent-bit.conf
           volumeMounts:
-            - name: varlog
-              mountPath: /var/log
+            - mountPath: /fluent-bit/etc  
+              name: config
+              readOnly: true              
+            - mountPath: /var/log
+              name: varlog
               readOnly: true
-            - name: config
-              mountPath: /fluent-bit/etc/fluent-bit.conf
-              subPath: fluent-bit.conf
-            - name: config
-              mountPath: /fluent-bit/etc/parsers.conf
-              subPath: parsers.conf
       volumes:
         - name: varlog
           hostPath:

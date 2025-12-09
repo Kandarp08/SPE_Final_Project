@@ -4,6 +4,7 @@ metadata:
   name: fluent-bit-config
   namespace: diabetes-prediction
 data:
+
   fluent-bit.conf: |
     [SERVICE]
         Flush           1
@@ -13,7 +14,7 @@ data:
 
     [INPUT]
         Name            tail
-        Path            /var/log/containers/*.log 
+        Path            /var/log/containers/*.log
         Exclude_Path    *fluent-bit*
         Parser          docker
         Tag             kube.*
@@ -22,12 +23,13 @@ data:
     [OUTPUT]
         Name            es
         Match           kube.*
-        Host            10.255.255.254
+        Host            172.25.12.162
         Port            9200
         Index           k8s-logs
-        Type            _doc
 
-    # [OUTPUT]
-    #     Name    stdout
-    #     Match   kube.*
-    #     Format  json_lines
+  parsers.conf: |
+    [PARSER]
+        Name        docker
+        Format      json
+        Time_Key    time
+        Time_Format %Y-%m-%dT%H:%M:%S.%LZ
