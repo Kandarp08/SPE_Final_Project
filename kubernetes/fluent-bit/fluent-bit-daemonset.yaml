@@ -25,7 +25,11 @@ spec:
             - name: varlog
               mountPath: /var/log
             - name: config
-              mountPath: /fluent-bit/etc/
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: fluent-bit.conf 
+            - name: config
+              mountPath: /fluent-bit/etc/parsers.conf
+              subPath: parsers.conf
       volumes:
         - name: varlog
           hostPath:
