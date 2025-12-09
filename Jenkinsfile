@@ -100,9 +100,7 @@ pipeline
                     --driver=docker \
                     --preload=false \
                     --force \
-                    --interactive=false \
-                    --cpus=4 \
-                    --memory=3072
+                    --interactive=false
 
                     minikube status
                     """
@@ -134,10 +132,8 @@ pipeline
                 script
                 {
                     sh """
-                    kubectl apply -f ./kubernetes/elk/elasticsearch.yaml
-                    kubectl apply -f ./kubernetes/elk/kibana.yaml
-                    kubectl apply -f ./kubernetes/elk/logstash.yaml
-                    kubectl apply -f ./kubernetes/elk/filebeat.yaml
+                    docker-compose -f ./elk-stack/docker-compose.yml up -d
+                    kubectl apply -f ./kubernetes/fluent-bit/
                     """
                 }
             }
