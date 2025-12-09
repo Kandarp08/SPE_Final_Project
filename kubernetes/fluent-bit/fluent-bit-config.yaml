@@ -26,6 +26,7 @@ data:
         Host            172.25.12.162
         Port            9200
         Index           k8s-logs
+        Suppress_Type_Name    On
 
   parsers.conf: |
     [PARSER]

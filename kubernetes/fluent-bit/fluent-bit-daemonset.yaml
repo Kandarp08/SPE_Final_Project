@@ -15,18 +15,26 @@ spec:
       serviceAccountName: default
       containers:
         - name: fluent-bit
-          image: fluent/fluent-bit:1.9
+          image: fluent/fluent-bit:1.9-debug
           command:
             - /fluent-bit/bin/fluent-bit
           args:
             - -c
             - /fluent-bit/etc/fluent-bit.conf
           volumeMounts:
-            - mountPath: /fluent-bit/etc  
-              name: config
-              readOnly: true              
-            - mountPath: /var/log
-              name: varlog
+            - name: config
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: fluent-bit.conf
+              readOnly: true
+            - name: config
+              mountPath: /fluent-bit/etc/parsers.conf
+              subPath: parsers.conf
+              readOnly: true
+            - name: varlog
+              mountPath: /var/log
+              readOnly: true
+            - name: varlibdockercontainers 
+              mountPath: /var/lib/docker/containers 
               readOnly: true
       volumes:
         - name: varlog
@@ -35,3 +43,6 @@ spec:
         - name: config
           configMap:
             name: fluent-bit-config
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
