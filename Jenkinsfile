@@ -64,7 +64,6 @@ pipeline
             {
                 sh """
                 . ${VENV}/bin/activate
-                kaggle datasets download -d kandarpsdave/diabetes-prediction-dataset -p data/ --unzip
                 dvc repro
                 """
             }

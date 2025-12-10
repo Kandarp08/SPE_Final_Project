@@ -1,4 +1,11 @@
 stages:
+  download_data:
+    cmd: kaggle datasets download -d kandarpsdave/diabetes-prediction-dataset -p data/ --unzip
+    deps:
+      - dataset_info.txt
+    outs:
+      - data/
+      
   ingest:
     cmd: python3 src/ingest_data.py
     deps:
