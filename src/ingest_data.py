@@ -5,13 +5,20 @@ from imblearn.over_sampling import SMOTE
 import os
 import pickle
 
-DATASET_PATH = "./data/diabetes_prediction_dataset_1.csv"
+DATASET_DIR = "./data/"
 PROCESSED_DATA_DIR = "./processed_data"
 ENCODER_DIR = "./encoders"
 TEST_RATIO = 0.2
 RANDOM_SEED = 100
 
-df = pd.read_csv(DATASET_PATH)
+files = os.listdir(DATASET_DIR)
+files = [f for f in files if os.path.isfile(os.path.join(DATASET_DIR, f))]
+
+DATASET_PATH = files[0]
+
+df = pd.read_csv(os.path.join(DATASET_DIR, DATASET_PATH))
+
+print(f"Using dataset: {DATASET_PATH}")
 
 # Perform label encoding for now
 categorical_cols = ['hypertension', 'heart_disease', 'gender', 'smoking_history']

@@ -64,7 +64,7 @@ pipeline
             {
                 sh """
                 . ${VENV}/bin/activate
-                dvc repro
+                dvc repro --force download_data
                 """
             }
         }
