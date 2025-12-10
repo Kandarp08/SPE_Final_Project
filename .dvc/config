@@ -1,4 +1,5 @@
 [core]
     autostage = true
+    remote = local-storage
 ['remote "local-storage"']
     url = /opt/dvc-storage

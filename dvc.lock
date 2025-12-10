@@ -3,11 +3,11 @@ stages:
   ingest:
     cmd: python3 src/ingest_data.py
     deps:
-    - path: data
+    - path: data/
       hash: md5
-      md5: 8ee01de6a76cadc1dbff884f85afbbfb.dir
-      size: 3811247
-      nfiles: 10
+      md5: d84a33e204a60e6a967bb30f36cf33e7.dir
+      size: 380717
+      nfiles: 1
     - path: src/ingest_data.py
       hash: md5
       md5: c89e32450b03558c350a3019208e439a
@@ -31,20 +31,20 @@ stages:
       size: 652546
     - path: src/train.py
       hash: md5
-      md5: 79e92c706d384ad3a8ccf4f215b11bba
-      size: 1543
+      md5: c1fec18bc966f465fa25f2eecae9d3e8
+      size: 1555
       isexec: true
     outs:
     - path: models/model.onnx
       hash: md5
-      md5: cb6ead2de0055c39d8569afca4da2fec
+      md5: 060868bb3ed254e2820713ccd6a5befd
       size: 132778
   evaluate:
     cmd: python3 src/evaluate.py
     deps:
     - path: models/model.onnx
       hash: md5
-      md5: cb6ead2de0055c39d8569afca4da2fec
+      md5: 060868bb3ed254e2820713ccd6a5befd
       size: 132778
     - path: processed_data/val.csv
       hash: md5
@@ -60,3 +60,12 @@ stages:
       hash: md5
       md5: 5cb695f5bad74f1591308b8fe0fa00cb
       size: 31
+  download_data:
+    cmd: kaggle datasets download -d kandarpsdave/diabetes-prediction-dataset -p
+      data/ --unzip
+    outs:
+    - path: data/
+      hash: md5
+      md5: d84a33e204a60e6a967bb30f36cf33e7.dir
+      size: 380717
+      nfiles: 1

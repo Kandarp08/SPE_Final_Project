@@ -20,7 +20,7 @@ X_train = train_df.drop("diabetes", axis=1)
 n_features = X_train.shape[1]
 initial_type = [('float_input', FloatTensorType([None, n_features]))]
 
-mlflow.set_tracking_uri("sqlite:////var/lib/jenkins/mlflow/mlflow.db")
+mlflow.set_tracking_uri("sqlite:////opt/mlflow/mlflow.db")
 
 with mlflow.start_run():
 
