@@ -10,8 +10,8 @@ stages:
       nfiles: 1
     - path: src/ingest_data.py
       hash: md5
-      md5: c89e32450b03558c350a3019208e439a
-      size: 2133
+      md5: b3eb6a2aee8d176a8942d05b18d8cb1c
+      size: 2300
       isexec: true
     outs:
     - path: processed_data/train.csv

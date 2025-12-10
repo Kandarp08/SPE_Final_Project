@@ -6,3 +6,4 @@ encoders/
 src/__pycache__
 mlflow.db
 data/
+/data
