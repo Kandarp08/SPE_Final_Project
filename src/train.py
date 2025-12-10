@@ -3,6 +3,7 @@ from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score
 import mlflow
 import mlflow.sklearn
+from mlflow.tracking import MlflowClient
 import os
 
 import onnxmltools
@@ -21,13 +22,23 @@ n_features = X_train.shape[1]
 initial_type = [('float_input', FloatTensorType([None, n_features]))]
 
 backend_store = f"sqlite:///{os.environ.get('MLFLOW_DB_PATH')}/mlflow.db"
-artifact_store = f"file:{os.environ.get('MLFLOW_ARTIFACT_PATH')}"
-
 mlflow.set_tracking_uri(backend_store)
-mlflow.set_experiment("diabetes-prediction", artifact_location=f"file:{os.environ['MLFLOW_ARTIFACT_PATH']}")
 
-os.makedirs(os.environ.get("MLFLOW_DB_PATH"), exist_ok=True)
-os.makedirs(os.environ.get("MLFLOW_ARTIFACT_PATH"), exist_ok=True)
+artifact_uri = f"file:{os.environ.get('MLFLOW_ARTIFACT_PATH')}"
+experiment_name = "diabetes-prediction"
+client = MlflowClient()
+
+experiment = client.get_experiment_by_name(experiment_name)
+
+if experiment is None:
+    experiment_id = client.create_experiment(
+        name=experiment_name,
+        artifact_location=artifact_uri
+    )
+else:
+    experiment_id = experiment.experiment_id
+
+mlflow.set_experiment(experiment_name)
 
 with mlflow.start_run():
 
