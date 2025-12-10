@@ -5,7 +5,7 @@ from imblearn.over_sampling import SMOTE
 import os
 import pickle
 
-DATASET_PATH = "./data/diabetes_prediction_dataset_2.csv"
+DATASET_PATH = "./data/diabetes_prediction_dataset_1.csv"
 PROCESSED_DATA_DIR = "./processed_data"
 ENCODER_DIR = "./encoders"
 TEST_RATIO = 0.2
