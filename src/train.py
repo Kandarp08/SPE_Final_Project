@@ -23,7 +23,8 @@ initial_type = [('float_input', FloatTensorType([None, n_features]))]
 backend_store = f"sqlite:///{os.environ.get('MLFLOW_DB_PATH')}/mlflow.db"
 artifact_store = f"file:{os.environ.get('MLFLOW_ARTIFACT_PATH')}"
 
-mlflow.set_tracking_uri(artifact_store)
+mlflow.set_tracking_uri(backend_store)
+mlflow.set_experiment("diabetes-prediction", artifact_location=f"file:{os.environ['MLFLOW_ARTIFACT_PATH']}")
 
 os.makedirs(os.environ.get("MLFLOW_DB_PATH"), exist_ok=True)
 os.makedirs(os.environ.get("MLFLOW_ARTIFACT_PATH"), exist_ok=True)
