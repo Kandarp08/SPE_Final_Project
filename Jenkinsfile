@@ -32,13 +32,28 @@ pipeline
             }
         }
 
-        stage("Pull Data + Models (DVC)") 
+        stage("Setup Kaggle Credentials") 
+        {
+            steps 
+            {
+                withCredentials([file(credentialsId: 'KAGGLE_API_TOKEN', variable: 'KAGGLE_FILE')]) {
+                    sh """
+                    mkdir -p ~/.kaggle
+                    cp $KAGGLE_FILE ~/.kaggle/kaggle.json
+                    chmod 600 ~/.kaggle/kaggle.json
+                    """
+                }
+            }
+        }
+
+
+        stage("Pull Data (DVC)") 
         {
             steps 
             {
                 sh """
                 . ${VENV}/bin/activate
-                dvc pull
+                dvc pull -v
                 """
             }
         }

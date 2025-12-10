@@ -1,9 +1,14 @@
 stages:
+  download_data:
+  download_data:
+    cmd: wget -O diabetes_prediction_dataset_1.csv $(dvc remote list | awk '/kaggle_remote/ {print $2}')
+    outs:
+      - diabetes_prediction_dataset_1.csv
   ingest:
     cmd: python3 src/ingest_data.py
     deps:
       - src/ingest_data.py
-      - data
+      - diabetes_prediction_dataset_1.csv
     outs:
       - processed_data/train.csv
       - processed_data/val.csv
