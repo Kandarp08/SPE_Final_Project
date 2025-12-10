@@ -5,3 +5,4 @@ processed_data/
 encoders/
 src/__pycache__
 mlflow.db
+data/
