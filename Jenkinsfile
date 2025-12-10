@@ -8,6 +8,9 @@ pipeline
         VENV = "${WORKSPACE}/venv"
         PYTHON = "${VENV}/bin/python"
         PIP = "${VENV}/bin/pip"
+
+        MLFLOW_DB_PATH        = "/var/lib/jenkins/mlflow_db"
+        MLFLOW_ARTIFACT_PATH  = "/var/lib/jenkins/mlflow_artifacts"
     }
 
     stages 
@@ -46,6 +49,19 @@ pipeline
             }
         }
 
+        stage("Prepare MLflow Storage") 
+        {
+            steps 
+            {
+                sh """
+                    sudo mkdir -p $MLFLOW_DB_PATH
+                    sudo mkdir -p $MLFLOW_ARTIFACT_PATH
+
+                    sudo chown -R jenkins:jenkins $MLFLOW_DB_PATH
+                    sudo chown -R jenkins:jenkins $MLFLOW_ARTIFACT_PATH
+                """
+            }
+        }
 
         stage("Pull Data (DVC)") 
         {

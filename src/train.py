@@ -20,7 +20,13 @@ X_train = train_df.drop("diabetes", axis=1)
 n_features = X_train.shape[1]
 initial_type = [('float_input', FloatTensorType([None, n_features]))]
 
-mlflow.set_tracking_uri("sqlite:////opt/mlflow/mlflow.db")
+backend_store = f"sqlite:///{os.environ.get('MLFLOW_DB_PATH')}/mlflow.db"
+artifact_store = f"file:{os.environ.get('MLFLOW_ARTIFACT_PATH')}"
+
+mlflow.set_tracking_uri(artifact_store)
+
+os.makedirs(os.environ.get("MLFLOW_DB_PATH"), exist_ok=True)
+os.makedirs(os.environ.get("MLFLOW_ARTIFACT_PATH"), exist_ok=True)
 
 with mlflow.start_run():
 
