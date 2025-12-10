@@ -1,8 +1,4 @@
 [core]
-    remote = kaggle_remote
     autostage = true
 ['remote "local-storage"']
     url = /opt/dvc-storage
-['remote "kaggle_remote"']
-    url = https://www.kaggle.com/datasets/kandarpsdave/diabetes-prediction-dataset?select=diabetes_prediction_dataset_1.csv
-    no_traverse = true
