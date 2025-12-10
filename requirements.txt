@@ -6,3 +6,4 @@ mlflow
 onnxruntime
 onnxmltools
 kaggle
+dvc

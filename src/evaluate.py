@@ -1,5 +1,4 @@
 import json
-import mlflow
 import pandas as pd
 import onnxruntime as ort
 from sklearn.metrics import accuracy_score
