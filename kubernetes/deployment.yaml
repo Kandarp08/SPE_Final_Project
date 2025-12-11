@@ -16,6 +16,13 @@ spec:
       containers:
       - name: diabetes-api
         image: kandarp53/diabetes_prediction:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
-        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi

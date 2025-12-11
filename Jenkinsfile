@@ -151,6 +151,7 @@ pipeline
                     kubectl apply -f ./kubernetes/service.yaml
                     kubectl delete ValidatingWebhookConfiguration ingress-nginx-admission
                     kubectl apply --validate=false -f ./kubernetes/ingress.yaml
+                    kubectl apply -f ./kubernetes/hpa.yaml
                     """
                 }
             }
