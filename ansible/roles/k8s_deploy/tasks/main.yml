@@ -34,7 +34,7 @@
   command: kubectl apply -f /tmp/kubernetes/hpa.yaml
 
 - name: Start Elasticsearch and Kibana
-  command: docker-compose -f /tmp/efk-stack/docker-compose.yml up -d
+  command: docker compose -f /tmp/efk-stack/docker-compose.yml up -d
 
 - name: Apply Fluent Bit
   command: kubectl apply -f /tmp/kubernetes/fluent-bit/
