@@ -1,6 +1,7 @@
 ---
 - name: Deploy application to Kubernetes using kubectl
   hosts: local
+  gather_facts: false
   become: false
 
   roles:

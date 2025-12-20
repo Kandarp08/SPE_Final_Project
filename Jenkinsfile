@@ -126,7 +126,9 @@ pipeline
             {
                 sh """
                 . ${VENV}/bin/activate
-                ansible-playbook -i ansible/inventory.ini ansible/deployment.yml
+                ansible-playbook ansible/deployment.yml \
+                -i ansible/inventory.ini \
+                --vault-password-file ~/.ansible_vault_pass.txt
                 """
             }
         }
