@@ -1,0 +1,30 @@
+---
+- name: Ensure kubectl can access cluster
+  command: kubectl cluster-info
+  register: cluster_info
+  failed_when: cluster_info.rc != 0
+
+- name: Apply namespace
+  command: kubectl apply -f kubernetes/namespace.yaml
+
+- name: Apply deployment
+  command: kubectl apply -f kubernetes/deployment.yaml
+
+- name: Apply service
+  command: kubectl apply -f kubernetes/service.yaml
+
+- name: Remove ingress validation webhook (minikube fix)
+  command: kubectl delete ValidatingWebhookConfiguration ingress-nginx-admission
+  ignore_errors: true
+
+- name: Apply ingress
+  command: kubectl apply --validate=false -f kubernetes/ingress.yaml
+
+- name: Apply HPA
+  command: kubectl apply -f kubernetes/hpa.yaml
+
+- name: Start Elasticsearch and Kibana
+  command: docker-compose -f ./elk-stack/docker-compose.yml up -d
+
+- name: Apply Fluent Bit
+  command: kubectl apply -f kubernetes/fluent-bit/

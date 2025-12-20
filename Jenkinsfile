@@ -120,54 +120,14 @@ pipeline
             }
         }
 
-        stage("Start Minikube")
+        stage("Deploy to Kubernetes using Ansible") 
         {
-            steps
+            steps 
             {
-                script
-                {
-                    sh """
-                    minikube start \
-                    --driver=docker \
-                    --preload=false \
-                    --force \
-                    --interactive=false
-
-                    minikube status
-                    """
-                }
-            }
-        }
-
-        stage("Deploy using Kubernetes")
-        {
-            steps
-            {
-                script
-                {
-                    sh """
-                    kubectl apply -f ./kubernetes/namespace.yaml
-                    kubectl apply -f ./kubernetes/deployment.yaml
-                    kubectl apply -f ./kubernetes/service.yaml
-                    kubectl delete ValidatingWebhookConfiguration ingress-nginx-admission
-                    kubectl apply --validate=false -f ./kubernetes/ingress.yaml
-                    kubectl apply -f ./kubernetes/hpa.yaml
-                    """
-                }
-            }
-        }
-
-        stage("Apply ELK stack")
-        {
-            steps
-            {
-                script
-                {
-                    sh """
-                    docker-compose -f ./elk-stack/docker-compose.yml up -d
-                    kubectl apply -f ./kubernetes/fluent-bit/
-                    """
-                }
+                sh """
+                . ${VENV}/bin/activate
+                ansible-playbook -i ansible/inventory.ini ansible/deployment.yml
+                """
             }
         }
     }
