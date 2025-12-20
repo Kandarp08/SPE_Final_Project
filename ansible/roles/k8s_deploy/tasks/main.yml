@@ -4,27 +4,47 @@
   register: cluster_info
   failed_when: cluster_info.rc != 0
 
+- name: Copy Kubernetes manifests
+  copy:
+    src: kubernetes/
+    dest: /tmp/kubernetes/
+
+- name: Copy EFK stack manifests
+  copy: 
+    src: efk-stack/
+    dest: /tmp/efk-stack
+
 - name: Apply namespace
-  command: kubectl apply -f kubernetes/namespace.yaml
+  command: kubectl apply -f /tmp/kubernetes/namespace.yaml
 
 - name: Apply deployment
-  command: kubectl apply -f kubernetes/deployment.yaml
+  command: kubectl apply -f /tmp/kubernetes/deployment.yaml
 
 - name: Apply service
-  command: kubectl apply -f kubernetes/service.yaml
+  command: kubectl apply -f /tmp/kubernetes/service.yaml
 
 - name: Remove ingress validation webhook (minikube fix)
   command: kubectl delete ValidatingWebhookConfiguration ingress-nginx-admission
   ignore_errors: true
 
 - name: Apply ingress
-  command: kubectl apply --validate=false -f kubernetes/ingress.yaml
+  command: kubectl apply --validate=false -f /tmp/kubernetes/ingress.yaml
 
 - name: Apply HPA
-  command: kubectl apply -f kubernetes/hpa.yaml
+  command: kubectl apply -f /tmp/kubernetes/hpa.yaml
 
 - name: Start Elasticsearch and Kibana
-  command: docker-compose -f ./elk-stack/docker-compose.yml up -d
+  command: docker-compose -f /tmp/efk-stack/docker-compose.yml up -d
 
 - name: Apply Fluent Bit
-  command: kubectl apply -f kubernetes/fluent-bit/
+  command: kubectl apply -f /tmp/kubernetes/fluent-bit/
+
+- name: Clean up Kubernetes manifests
+  file:
+    path: /tmp/kubernetes
+    state: absent
+
+- name: Clean up EFK stack manifests
+  file:
+    path: /tmp/efk-stack
+    state: absent
